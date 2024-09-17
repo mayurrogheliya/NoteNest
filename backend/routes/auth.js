@@ -6,8 +6,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const fetchusers = require('../middleware/fetchuser');
 
-const jwt_secret = "mayurisagoodboy";
-
 // ROUTE:1 create a user using post '/api/auth/createUser'. no login required
 router.post('/createUser', [
     body('name', 'Enter valid name').isLength({ min: 3 }),
@@ -48,7 +46,7 @@ router.post('/createUser', [
                 id: user.id
             }
         }
-        const authToken = jwt.sign(data, jwt_secret);
+        const authToken = jwt.sign(data, process.env.JWT_SECRET);
 
         // res.json({ user })
         success = true;
@@ -94,7 +92,7 @@ router.post('/login', [
                 id: user.id
             }
         }
-        const authToken = jwt.sign(payload, jwt_secret);
+        const authToken = jwt.sign(payload, process.env.JWT_SECRET);
         success = true;
         res.json({ success, authToken });
 
